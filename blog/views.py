@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 # Create your views here.
 def sign_up(request):
-    return render(request, 'blog/post_list.html', {})
+    return render(request, 'blog/sign_up.html', {})
