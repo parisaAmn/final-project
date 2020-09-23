@@ -101,9 +101,10 @@
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
                         <form method="POST" class="register-form" id="register-form">
+                          {% csrf_token%}
                             <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name"/>
+                                <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="username" id="username" placeholder="Your Username"/>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -123,6 +124,11 @@
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree to user my system info for login</label>
 
                             </div>
+                            <div hidden class="form-group">
+                              <label for="browserFingerprint"><i></i></label>
+                              <p>Browser fingerprint<br /><strong id="browserFingerprint"></strong></p>
+                              <!-- <p>Device fingerprint<br /><strong id="deviceFingerprint"></strong></p> -->
+                            </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
                             </div>
@@ -138,6 +144,7 @@
 
 
     </div>
+
 
     <footer class="site-footer">
         <div class="container">
@@ -214,6 +221,65 @@
       }
     });
   </script>
+<!-- browser fingerprint script -->
+<script type="text/javascript" src="/static/bf/dist/imprint.min.js"></script>
+<script type="text/javascript">
+
+  var browserTests = [
+      "audio",
+      "availableScreenResolution",
+      "canvas",
+      "colorDepth",
+      "cookies",
+      "cpuClass",
+      "deviceDpi",
+      "doNotTrack",
+      "indexedDb",
+      "installedFonts",
+      //"installedLanguages",
+      "language",
+      "localIp",
+      "localStorage",
+      "pixelRatio",
+      "platform",
+      "plugins",
+      "processorCores",
+      "screenResolution",
+      "sessionStorage",
+      "timezoneOffset",
+      "touchSupport",
+      "userAgent",
+      "webGl"
+    ];
+
+  console.time('getImprint 1');
+  imprint.test(browserTests).then(function(result){
+    console.timeEnd('getImprint 1');
+    document.getElementById("browserFingerprint").innerHTML = result;
+  });
+
+  // var deviceTests = [
+  //     "audio",
+  //     "colorDepth",
+  //     "cpuClass",
+  //     "deviceDpi",
+  //     "localIp",
+  //     "platform",
+  //     "installedFonts",
+  //     "processorCores",
+  //     "publicIp",
+  //     "screenResolution",
+  //     "timezoneOffset"
+  //   ];
+
+  // console.time('getImprint 2');
+  // imprint.test(deviceTests).then(function(result){
+  //   console.timeEnd('getImprint 2');
+  //   document.getElementById("deviceFingerprint").innerHTML = result;
+  // });
+
+</script>
+
 
 
   <script src="/static/js/main.js"></script>

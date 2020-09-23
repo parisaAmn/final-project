@@ -1,0 +1,45 @@
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <script type="text/javascript" src="/imprint.min.js"></script>
+        <script type="text/javascript">
+            var browserTests = [
+                "audio",
+                "availableScreenResolution",
+                "canvas",
+                "colorDepth",
+                "cookies",
+                "cpuClass",
+                "deviceDpi",
+                "doNotTrack",
+                "indexedDb",
+                "installedFonts",
+                "language",
+                "localIp",
+                "localStorage",
+                "pixelRatio",
+                "platform",
+                "plugins",
+                "processorCores",
+                "screenResolution",
+                "sessionStorage",
+                "timezoneOffset",
+                "touchSupport",
+                "userAgent",
+                "webGl"
+            ];
+            // imprint.test(browserTests).then(function(result){
+            // console.log(result);
+            // });
+            // var t = new ImprintJs();
+            // var rr = t.getFingerprint(browserTests);
+            // rr.then(function(result){ console.log(result);});
+            imprint.test(browserTests).then(function(result){
+            console.log(result);
+            });
+            
+        </script>
+    </body>
+</html>

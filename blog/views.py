@@ -18,4 +18,4 @@ def contact(request):
     return render(request, 'blog/contact.html', {})
 
 def test(request):
-    return render(request, 'blog/test.html', {})
+    return render(request, 'blog/default.html', {})
