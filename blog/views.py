@@ -28,11 +28,22 @@ def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            unique = True
+            unique = True # if browser fingerprint is unique
+            fingerprint = form.cleaned_data.get('browserfingerprint')
+            #try to find user with this fingerprint in database
+            number = Profile.objects.filter(browserfingerprint=fingerprint).count()
+            #if fingerprint doesn't exist in database
+            if number == 1 :
+                print("111111")
+                unique = False
+                Profile.objects.filter(browserfingerprint=fingerprint).update(bf_uniquenes=False)
+            elif number > 1 :
+                print('222222') 
+                unique = False
             user = Profile.objects.create(username=form.cleaned_data.get('username'),
                                         password=make_password(form.cleaned_data.get('password1')),
                                         email=form.cleaned_data.get('email'),
-                                        browserfingerprint=form.cleaned_data.get('browserfingerprint'),
+                                        browserfingerprint=fingerprint,
                                         bf_uniquenes=unique)
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
