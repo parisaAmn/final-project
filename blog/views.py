@@ -1,7 +1,7 @@
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
+from .models import Profiles
 
 # Create your views here.
 def index(request):
@@ -23,14 +23,18 @@ def contact(request):
 def test(request):
     return render(request, 'blog/default.html', {})
 
-def signup_view(request):
+def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
+            unique = True
+            user = Profiles.objects.create(username=form.cleaned_data.get('username'),
+                                        password=form.cleaned_data.get('password1'),
+                                        email=form.cleaned_data.get('email'),
+                                        browserfingerprint=form.cleaned_data.get('browserfingerprint'),
+                                        bf_uniquenes=unique)
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
             login(request, user)
             return redirect('index')
     else:
