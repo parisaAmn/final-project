@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(required=True)
     browserfingerprint = forms.CharField(max_length=64)
 
     class Meta:
