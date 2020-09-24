@@ -1,7 +1,8 @@
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
-from .models import Profiles
+from .models import Profile
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 def index(request):
@@ -28,14 +29,14 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             unique = True
-            user = Profiles.objects.create(username=form.cleaned_data.get('username'),
-                                        password=form.cleaned_data.get('password1'),
+            user = Profile.objects.create(username=form.cleaned_data.get('username'),
+                                        password=make_password(form.cleaned_data.get('password1')),
                                         email=form.cleaned_data.get('email'),
                                         browserfingerprint=form.cleaned_data.get('browserfingerprint'),
                                         bf_uniquenes=unique)
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
-            login(request, user)
+            # login(request, user)
             return redirect('index')
     else:
         form = SignUpForm()
