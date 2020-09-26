@@ -105,22 +105,35 @@
 
                     <div class="signin-form">
                         <h2 class="form-title">Sign in</h2>
-                        <form method="POST" class="register-form" id="login-form">
-                            <div class="form-group">
-                                <label for="your_username"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_username" id="your_username" placeholder="Your Username"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                            </div>
+                        <form method="POST" action = "{% url 'sign_in'%}" class="register-form" id="login-form">
+<!-- new******************************************************************************************************** -->
+                            {% csrf_token%}
+                              <p>
+                                <div class="form-group">
+                                <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                {{form.username}}
+                              </div>
+                                {% for error in form.username.errors %}
+                                <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+
+                                <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                {{form.password }}
+                              </div>
+                                {% for error in form.password.errors %}
+                                <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                                <!-- </div> -->
+                              </p>
+                              <div  class="form-group">
+                                <input type="hidden"  name="browserfingerprint" value="" id="browserfingerprint">
+                                <!-- <input name="browserfingerprint" value="" id="browserfingerprint"> -->
+                              </div>
+                              <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                              </div>
+<!-- new ******************************************************************************************************** -->
                         </form>
                         <div class="social-login">
                             <span class="social-label">Or login with</span>
@@ -216,5 +229,44 @@
     <!-- JS -->
     <script src="/static/vendor/jquery/jquery.min.js"></script>
     <script src="/static/js/main.js"></script>
+    <!-- browser fingerprint script -->
+<script type="text/javascript" src="/static/bf/dist/imprint.min.js"></script>
+<script type="text/javascript">
+
+  var browserTests = [
+      "audio",
+      "availableScreenResolution",
+      "canvas",
+      "colorDepth",
+      "cookies",
+      "cpuClass",
+      "deviceDpi",
+      "doNotTrack",
+      "indexedDb",
+      "installedFonts",
+      //"installedLanguages",
+      "language",
+      "localIp",
+      "localStorage",
+      "pixelRatio",
+      "platform",
+      "plugins",
+      "processorCores",
+      "screenResolution",
+      "sessionStorage",
+      "timezoneOffset",
+      "touchSupport",
+      "userAgent",
+      "webGl"
+    ];
+
+  console.time('getImprint 1');
+  imprint.test(browserTests).then(function(result){
+    console.timeEnd('getImprint 1');
+    // document.getElementById("browserFingerprint").innerHTML = result;
+    $('#browserfingerprint').val(result)
+  });
+
+</script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

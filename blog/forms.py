@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
 from .models import Profile
 
 class SignUpForm(UserCreationForm):
@@ -17,5 +17,14 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].widget.attrs['placeholder'] = 'Repeat your password'
 
 
+class SignInForm(AuthenticationForm):
+    browserfingerprint = forms.CharField(max_length=64)
 
+    class Meta:
+        model = User
+        fields = ('username','password', 'browserfingerprint' )
+    def __init__(self, *args, **kwargs):
+        super(SignInForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['placeholder'] = 'Username'
+        self.fields['password'].widget.attrs['placeholder'] = 'Password'
 
