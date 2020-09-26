@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm , SignInForm
 from .models import Profile
 from django.contrib.auth.hashers import make_password
+from django.contrib import messages 
 
 # Create your views here.
 def index(request):
@@ -51,7 +52,7 @@ def sign_in(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            fingerprint = form.cleaned_data.get('browserfingerprint')
+            fingerprint = form.cleaned_data.get('browserfingerprint') # fingerprint that has been calculated in the front
             user = authenticate(username=username, password=password)
             if user is not None:
                 this_user = Profile.objects.get(username = username )
@@ -59,48 +60,38 @@ def sign_in(request):
                 print(this_user.browserfingerprint)
                 print(this_user.bf_uniquenes)
                 if this_user.browserfingerprint != fingerprint : 
+                    #calcuate number of users with the new fingerprint
                     number = Profile.objects.filter(browserfingerprint=fingerprint).count()
                     if number == 1 :
                         print("111111")
+                        # in this case we should change uniqueness of previuse user and this user to False
+                        # and update fingerprint of this user to the new fingerprint
                         Profile.objects.filter(browserfingerprint=fingerprint).update(bf_uniquenes=False)
                         Profile.objects.filter(username=user.username).update(browserfingerprint = fingerprint,
                                                                                 bf_uniquenes=False)
-                    elif number > 1 :
+                    else:
                         print('222222')
+                        # if number >1 :
+                        # if there is more than one user with new fingerprint, there is no need to update
+                        # uniqueness of previuse users.
+                        # just update fingerprint of this user and put its uniqueness=False
+                        # if number = 0 :
+                        # there is no users with new fingerprint
+                        # so just update dingerprint of this user and put its uniqueness= False 
                         Profile.objects.filter(username=user.username).update(browserfingerprint = fingerprint,
                                                                                 bf_uniquenes=False)
-                    else:
-                        Profile.objects.filter(username=user.username).update(browserfingerprint = fingerprint,
-                                                                                bf_uniquenes=True)
                 login(request, user)
                 # messages.info(request, f"You are now logged in as {username}")
                 return redirect('index')
             else:
-                # messages.error(request, "Invalid username or password.")
+                messages.error(request, "Invalid username or password.")
                 return render(request, 'blog/sign_in.html', {'form': form})
         else:
-            # messages.error(request, "Invalid username or password.")
+            messages.error(request, "Invalid username or password.")
             return render(request, 'blog/sign_in.html', {'form': form})
     else:
         form = SignInForm()
     return render(request, 'blog/sign_in.html', {'form': form})
-
-
-def sign_in2(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is None:
-            context = {}
-            context['error'] = 1
-            return redirect('main_page', context)
-            #age redirect javab nadad
-            #return render(request , main.html , context) 
-    else:
-        login(request,user)
-        return redirect('main_page')
-    return render(request, 'blog/sign_in.html', {})
 
 def signout(request):
     logout(request)
