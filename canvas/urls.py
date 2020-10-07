@@ -1,13 +1,14 @@
 from django.urls import path
 from . import views
-urlpatterns = [
-    path('canvas/', views.index, name='index'),
-    path('canvas/signup/', views.signup, name='signup'),
-    path('canvas/sign_in/', views.sign_in, name='sign_in'),
-    path("canvas/signout", views.signout, name="signout"),
-    path('canvas/about/', views.about, name='about'),
-    path('canvas/contact/', views.contact, name='contact'),
-    path('canvas/test/', views.test, name='test'),
-    path('canvas/ajax/', views.ajaxx, name='ajax'),
 
-]
+urlpatterns = [
+    path('index/', views.index, name='cindex'),
+    path('signup/', views.signup, name='csignup'),
+    path('sign_in/', views.sign_in, name='csign_in'),
+    path("signout", views.signout, name="csignout"),
+    path('about/', views.about, name='cabout'),
+    path('contact/', views.contact, name='ccontact'),
+    path('test/', views.test, name='ctest'),
+    path('ajax/', views.ajaxx, name='cajax'),
+
+] 
