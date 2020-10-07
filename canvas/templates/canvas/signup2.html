@@ -128,6 +128,7 @@
                                 <!-- </div> -->
                               </p>
                               <!-- <div  class="form-group"> -->
+                                <!-- <input name="canvasfingerprint" value="" id="canvasfingerprint"> -->
                                 <input type="hidden"  name="canvasfingerprint" value="" id="canvasfingerprint">
                               <!-- </div> -->
                               <div class="form-group form-button">
@@ -214,45 +215,48 @@
 
 <script src="/static/js/main.js"></script>
 
-<!-- browser fingerprint script
-<script type="text/javascript" src="/static/bf/dist/imprint.min.js"></script>
-<script type="text/javascript">
+ <!-- canvas fingerprint scripts -->
+ <script type="application/javascript" src="/static/js/murmur.js"></script>
+<canvas id="c2" height="30" width="700" style="background: white" title="canvas element">
+</canvas>
+<script type="application/javascript">
+    (() => {
+        const canvas = document.getElementById("c2");
+        // get the 2d context and apply the text
+        const context = canvas.getContext("2d");
+        context.font = "18pt Arial";
+        context.textBaseline = "top";
+        context.fillText("How quickly daft jumping zebras vex. (Also, punctuation: Ɛ/ζ}Φ)", 2, 2);
+    })();
+</script>
 
-  var browserTests = [
-      "audio",
-      "availableScreenResolution",
-      "canvas",
-      "colorDepth",
-      "cookies",
-      "cpuClass",
-      "deviceDpi",
-      "doNotTrack",
-      "indexedDb",
-      "installedFonts",
-      //"installedLanguages",
-      "language",
-      "localIp",
-      "localStorage",
-      "pixelRatio",
-      "platform",
-      "plugins",
-      "processorCores",
-      "screenResolution",
-      "sessionStorage",
-      "timezoneOffset",
-      "touchSupport",
-      "userAgent",
-      "webGl"
-    ];
+<p>Output:</p>
+                <pre><code id="raw-output"></code></pre>
+                
+                <script type="application/javascript">
+                    (() => {
+                        const canvas = document.getElementById("c2");
+                        const elem = document.getElementById("raw-output");
+                        // fetch the base64 encoded image
+                        const fingerprint = canvas.toDataURL("image/png");
+                        elem.innerHTML = fingerprint.substring(0, 90) + "...";
+                    })();
+                </script>
 
-  console.time('getImprint 1');
-  imprint.test(browserTests).then(function(result){
-    console.timeEnd('getImprint 1');
-    // document.getElementById("browserFingerprint").innerHTML = result;
-    $('#browserfingerprint').val(result)
-  });
+<h4>Fingerprint Output: <code id="raw-output-2"></code></h4>
 
-</script> -->
+                <script type="application/javascript">
+                    (() => {
+                        const canvas = document.getElementById("c2");
+                        const elem = document.getElementById("raw-output-2");
+                        // fetch the base64 encoded image
+                        const fingerprint = canvas.toDataURL("image/png");
+                        const murmur = Murmur.x64hash128(fingerprint, 42);
+                        elem.innerHTML = murmur;
+                        $('#canvasfingerprint').val(murmur)
+                    })();
+                </script>
+ <!-- end canvas fingerprint script -->
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

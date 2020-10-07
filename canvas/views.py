@@ -18,10 +18,10 @@ def ajaxx(request):
     #     fingerprint = request.GET.get("result_data" , None)
     #     if fingerprint is not None:
     #         print('2')
-    #         number = Profile.objects.filter(browserfingerprint = fingerprint ).count()
+    #         number = CanvasProfile.objects.filter(canvasfingerprint = fingerprint ).count()
     #         if number == 1:
     #             print('3')
-    #             user = Profile.objects.get(browserfingerprint = fingerprint)
+    #             user = CanvasProfile.objects.get(canvasfingerprint = fingerprint)
     #             user.backend = 'django.contrib.auth.backends.ModelBackend'
     #             login(request , user)
     #             print('5')
@@ -51,26 +51,26 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             print('sign up func:')
-            unique = True # if browser fingerprint is unique
-            fingerprint = form.cleaned_data.get('browserfingerprint')
+            unique = True # if canvas fingerprint is unique
+            fingerprint = form.cleaned_data.get('canvasfingerprint')
             #try to find user with this fingerprint in database
-            number = Profile.objects.filter(browserfingerprint=fingerprint).count()
+            number = CanvasProfile.objects.filter(canvasfingerprint=fingerprint).count()
             if number == 1 :
                 print("111111")
                 unique = False
-                Profile.objects.filter(browserfingerprint=fingerprint).update(bf_uniquenes=False)
+                CanvasProfile.objects.filter(canvasfingerprint=fingerprint).update(uniqueness=False)
             elif number > 1 :
                 print('222222') 
                 unique = False
-            user = Profile.objects.create(username=form.cleaned_data.get('username'),
+            user = CanvasProfile.objects.create(username=form.cleaned_data.get('username'),
                                         password=make_password(form.cleaned_data.get('password1')),
                                         email=form.cleaned_data.get('email'),
-                                        browserfingerprint=fingerprint,
-                                        bf_uniquenes=unique)
+                                        canvasfingerprint=fingerprint,
+                                        uniqueness=unique)
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('index')
+            return redirect('c_index')
     else:
         form = SignUpForm()
     return render(request, 'canvas/signup2.html', {'form': form})
@@ -81,21 +81,21 @@ def sign_in(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            fingerprint = form.cleaned_data.get('browserfingerprint') # fingerprint that has been calculated in the front
+            fingerprint = form.cleaned_data.get('canvasfingerprint') # fingerprint that has been calculated in the front
             user = authenticate(username=username, password=password)
             if user is not None:
-                this_user = Profile.objects.get(username = username )
+                this_user = CanvasProfile.objects.get(username = username )
                 print("sign in function :")
-                if this_user.browserfingerprint != fingerprint : 
+                if this_user.canvasfingerprint != fingerprint : 
                     #calcuate number of users with the new fingerprint
-                    number = Profile.objects.filter(browserfingerprint=fingerprint).count()
+                    number = CanvasProfile.objects.filter(canvasfingerprint=fingerprint).count()
                     if number == 1 :
                         print("111111")
                         # in this case we should change uniqueness of previuse user and this user to False
                         # and update fingerprint of this user to the new fingerprint
-                        Profile.objects.filter(browserfingerprint=fingerprint).update(bf_uniquenes=False)
-                        Profile.objects.filter(username=user.username).update(browserfingerprint = fingerprint,
-                                                                                bf_uniquenes=False)
+                        CanvasProfile.objects.filter(canvasfingerprint=fingerprint).update(uniqueness=False)
+                        CanvasProfile.objects.filter(username=user.username).update(canvasfingerprint = fingerprint,
+                                                                                uniqueness=False)
                     else:
                         print('222222')
                         # if number >1 :
@@ -105,13 +105,13 @@ def sign_in(request):
                         # if number = 0 :
                         # there is no users with new fingerprint
                         # so just update dingerprint of this user and put its uniqueness= False 
-                        Profile.objects.filter(username=user.username).update(browserfingerprint = fingerprint,
-                                                                           bf_uniquenes=False)
+                        CanvasProfile.objects.filter(username=user.username).update(canvasfingerprint = fingerprint,
+                                                                           uniqueness=False)
                 
                 login(request, user)
                 print("user loged in")
                 # messages.info(request, f"You are now logged in as {username}")
-                return redirect('index')
+                return redirect('c_index')
                 # return render(request , "canvas/index.html", {'check_fingerprint':False})
             else:
                 messages.error(request, "Invalid username or password.")
