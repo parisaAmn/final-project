@@ -45,7 +45,7 @@
 
 
           <div class="col-3">
-            <h1 class="site-logo"><a href="{% url 'index' %}" class="h2">Podcast<span class="text-primary">.</span> </a></h1>
+            <h1 class="site-logo"><a href="{% url 'c_index' %}" class="h2">Podcast<span class="text-primary">.</span> </a></h1>
           </div>
           <div class="col-9">
             <nav class="site-navigation position-relative text-right text-md-right" role="navigation">
@@ -61,17 +61,17 @@
                 {% endif%}
                 <!-- <li class="active">{{ username }}</li> -->
                 <li class="active">
-                  <a href="{% url 'index' %}">Home</a>
+                  <a href="{% url 'c_index' %}">Home</a>
                 </li>
-                <li><a href="{% url 'cabout'%}">About</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'c_about'%}">About</a></li>
+                <li><a href="{% url 'c_contact' %}">Contact</a></li>
                 {% if not request.user.is_authenticated %}
-                <li><a href="{% url 'signup' %}">Login / Register</a></li>
+                <li><a href="{% url 'c_signup' %}">Login / Register</a></li>
                 {% endif%}
                 {% if request.user.is_authenticated %}
-                <li><a href="{% url 'signout' %}">logout</a></li>
+                <li><a href="{% url 'c_signout' %}">logout</a></li>
                 {% endif%}
-                <li><a href="{% url 'test' %}">test</a></li>
+                <li><a href="{% url 'c_test' %}">test</a></li>
               </ul>
             </nav>
 
@@ -625,7 +625,7 @@
     
     $.ajax({
       type : "GET",
-      url: 'ajax/', 
+      url: 'c/ajax/', 
       data: {
       'result_data': result,
       'csrfmiddlewaretoken': '{{ csrf_token }}'

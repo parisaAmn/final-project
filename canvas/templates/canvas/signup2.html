@@ -57,7 +57,7 @@
 
 
           <div class="col-3">
-            <h1 class="site-logo"><a href="{% url 'index' %}" class="h2">Podcast<span class="text-primary">.</span> </a></h1>
+            <h1 class="site-logo"><a href="{% url 'c_index' %}" class="h2">Podcast<span class="text-primary">.</span> </a></h1>
           </div>
           <div class="col-9">
             <nav class="site-navigation position-relative text-right text-md-right" role="navigation">
@@ -68,10 +68,10 @@
 
               <ul class="site-menu js-clone-nav d-none d-lg-block">
                 <li class="active">
-                  <a href="{% url 'index' %}">Home</a>
+                  <a href="{% url 'c_index' %}">Home</a>
                 </li>
-                <li><a href="{% url 'about'%}">About</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'c_about'%}">About</a></li>
+                <li><a href="{% url 'c_contact' %}">Contact</a></li>
               </ul>
             </nav>
 
@@ -91,7 +91,7 @@
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form method="POST" action = "{% url 'signup'%}" class="register-form" id="register-form">
+                        <form method="POST" action = "{% url 'c_signup'%}" class="register-form" id="register-form">
                           {% csrf_token%}
                               <p>
                                 <div class="form-group">
@@ -137,7 +137,7 @@
                     </div>
                     <div class="signup-image">
                         <figure><img src="/static/images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="{% url 'sign_in'%}" class="signup-image-link">I am already member</a>
+                        <a href="{% url 'c_sign_in'%}" class="signup-image-link">I am already member</a>
                     </div>
                 </div>
             </div>
