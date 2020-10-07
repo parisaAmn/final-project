@@ -9,7 +9,7 @@ urlpatterns = [
     path('about/', views.about, name='c_about'),
     path('contact/', views.contact, name='c_contact'),
     path('test/', views.test, name='c_test'),
-    path('ajax/', views.ajaxx, name='c_ajax'),
+    path('ajaxx/', views.ajaxx, name='c_ajax'),
 
 ] 
 

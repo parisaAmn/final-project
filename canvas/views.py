@@ -12,28 +12,28 @@ def index(request):
     return render(request , 'canvas/index.html' , {'check_fingerprint':True})
 
 def ajaxx(request):
-    # print('ajax func:')
-    # if request.is_ajax() and request.method == 'GET':
-    #     print('1')
-    #     fingerprint = request.GET.get("result_data" , None)
-    #     if fingerprint is not None:
-    #         print('2')
-    #         number = CanvasProfile.objects.filter(canvasfingerprint = fingerprint ).count()
-    #         if number == 1:
-    #             print('3')
-    #             user = CanvasProfile.objects.get(canvasfingerprint = fingerprint)
-    #             user.backend = 'django.contrib.auth.backends.ModelBackend'
-    #             login(request , user)
-    #             print('5')
-    #             return render(request , 'canvas/index.html' , {'check_fingerprint':False})
-    #         else:
-    #             print('6')
-    #             return render(request , 'canvas/index.html' , {'check_fingerprint':False})
-    #     else:
-    #         print('7')
-    #         return render(request , 'canvas/index.html' , {'check_fingerprint':False})
-    # else:
-    #     print('8')
+    print('ajax func:')
+    if request.is_ajax() and request.method == 'GET':
+        print('1')
+        fingerprint = request.GET.get("result_data" , None)
+        if fingerprint is not None:
+            print('2')
+            number = CanvasProfile.objects.filter(canvasfingerprint = fingerprint ).count()
+            if number == 1:
+                print('3')
+                user = CanvasProfile.objects.get(canvasfingerprint = fingerprint)
+                user.backend = 'django.contrib.auth.backends.ModelBackend'
+                login(request , user)
+                print('5')
+                return render(request , 'canvas/index.html' , {'check_fingerprint':False})
+            else:
+                print('6')
+                return render(request , 'canvas/index.html' , {'check_fingerprint':False})
+        else:
+            print('7')
+            return render(request , 'canvas/index.html' , {'check_fingerprint':False})
+    else:
+        print('8')
         return render(request , 'canvas/index.html' , {'check_fingerprint':False})
         
 

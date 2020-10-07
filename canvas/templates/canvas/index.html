@@ -584,57 +584,65 @@
 
 
   <script src="/static/js/main.js"></script>
-      <!-- browser fingerprint script -->
-<!-- <script type="text/javascript" src="/static/bf/dist/imprint.min.js"></script>
+
+      <!-- canvas fingerprint script -->
 {% if check_fingerprint  %}
 <div><p> {{check_fingerprint}}</p></div>
 {% if not request.user.is_authenticated %}
-<script type="text/javascript">
-  var browserTests = [
-      "audio",
-      "availableScreenResolution",
-      "canvas",
-      "colorDepth",
-      "cookies",
-      "cpuClass",
-      "deviceDpi",
-      "doNotTrack",
-      "indexedDb",
-      "installedFonts",
-      //"installedLanguages",
-      "language",
-      "localIp",
-      "localStorage",
-      "pixelRatio",
-      "platform",
-      "plugins",
-      "processorCores",
-      "screenResolution",
-      "sessionStorage",
-      "timezoneOffset",
-      "touchSupport",
-      "userAgent",
-      "webGl"
-    ];
-
-  console.time('getImprint 1');
-  imprint.test(browserTests).then(function(result){
-    console.timeEnd('getImprint 1');
-    // document.getElementById("browserFingerprint").innerHTML = result;
-    $('#browserfingerprint').val(result)
+<script type="application/javascript" src="/static/js/murmur.js"></script>
+ <canvas id="c2" height="30" width="700" style="background: white" title="canvas element">
+ </canvas>
+ <script type="application/javascript">
+     (() => {
+         const canvas = document.getElementById("c2");
+         // get the 2d context and apply the text
+         const context = canvas.getContext("2d");
+         context.font = "18pt Arial";
+         context.textBaseline = "top";
+         context.fillText("How quickly daft jumping zebras vex. (Also, punctuation: Ɛ/ζ}Φ)", 2, 2);
+     })();
+ </script>
+ 
+ <!-- <p>Output:</p> -->
+                 <!-- <pre><code id="raw-output"></code></pre> -->
+                 
+                 <script type="application/javascript">
+                     (() => {
+                         const canvas = document.getElementById("c2");
+                        //  const elem = document.getElementById("raw-output");
+                         // fetch the base64 encoded image
+                         const fingerprint = canvas.toDataURL("image/png");
+                        //  elem.innerHTML = fingerprint.substring(0, 90) + "...";
+                     })();
+                 </script>
+ 
+ <h4>Canvas Fingerprint : <code id="raw-output-2"></code></h4>
+ 
+                 <script type="application/javascript">
+                     (() => {
+                         const canvas = document.getElementById("c2");
+                         const elem = document.getElementById("raw-output-2");
+                         // fetch the base64 encoded image
+                         const fingerprint = canvas.toDataURL("image/png");
+                         const murmur = Murmur.x64hash128(fingerprint, 42);
+                         elem.innerHTML = murmur;
+                        //  $('#canvasfingerprint').val(murmur)
+                         canvas.style.display = "none";
+                         $.ajax({
+                    type : "GET",
+                    url: "{% url 'c_ajax' %}", 
+                    data: {
+                    'result_data': murmur,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                  },
+                  })
+                     })();
+                 </script>
+<script type="text/javascript">  
     
-    $.ajax({
-      type : "GET",
-      url: 'c/ajax/', 
-      data: {
-      'result_data': result,
-      'csrfmiddlewaretoken': '{{ csrf_token }}'
-    },
-    })
-  });
 </script>
 {% endif%}
-{% endif%} -->
-
+{% endif%} 
+<!-- end canvas fingerprint script -->
 </body>
 </html>
