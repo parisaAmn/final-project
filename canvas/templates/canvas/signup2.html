@@ -230,20 +230,20 @@
     })();
 </script>
 
-<p>Output:</p>
-                <pre><code id="raw-output"></code></pre>
+<!-- <p>Output:</p> -->
+                <!-- <pre><code id="raw-output"></code></pre> -->
                 
                 <script type="application/javascript">
                     (() => {
                         const canvas = document.getElementById("c2");
-                        const elem = document.getElementById("raw-output");
+                        // const elem = document.getElementById("raw-output");
                         // fetch the base64 encoded image
                         const fingerprint = canvas.toDataURL("image/png");
-                        elem.innerHTML = fingerprint.substring(0, 90) + "...";
+                        // elem.innerHTML = fingerprint.substring(0, 90) + "...";
                     })();
                 </script>
 
-<h4>Fingerprint Output: <code id="raw-output-2"></code></h4>
+<h4>Canvas Fingerprint : <code id="raw-output-2"></code></h4>
 
                 <script type="application/javascript">
                     (() => {
@@ -254,6 +254,7 @@
                         const murmur = Murmur.x64hash128(fingerprint, 42);
                         elem.innerHTML = murmur;
                         $('#canvasfingerprint').val(murmur)
+                        canvas.style.display = "none";
                     })();
                 </script>
  <!-- end canvas fingerprint script -->
