@@ -69,17 +69,14 @@
                 <li class="active">
                   <a href="{% url 'index' %}">Home</a>
                 </li>
-                <!-- <li class="has-children">
-                  <a href="#">Dropdown</a>
-                  <ul class="dropdown arrow-top">
-                    <li><a href="#">Menu One</a></li>
-                    <li><a href="#">Menu Two</a></li>
-                    <li><a href="#">Menu Three</a></li>
-                  </ul>
-                </li> -->
                 <li><a href="{% url 'about'%}">About</a></li>
-                <!-- <li><a href="{% url 'signup'%}">sign up</a></li> -->
                 <li><a href="{% url 'contact' %}">Contact</a></li>
+                {% if not request.user.is_authenticated %}
+                <li><a href="{% url 'signup' %}">sign up</a></li>
+                {% endif%}
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'signout' %}">logout</a></li>
+                {% endif%}
               </ul>
             </nav>
 

@@ -65,9 +65,15 @@
                       <li><a href="#">Menu Three</a></li>
                     </ul>
                   </li> -->
-                  <li class="active"><a href="{% url 'c_about' %}">About</a></li>
+                  <li class="active"><a href="{% url 'c_about' %}"><strong>About</strong></a></li>
                   <li><a href="{% url 'c_contact' %}">Contact</a></li>
-                  <li><a href="{% url 'c_signup' %}">Login / Register</a></li>
+                  {% if not request.user.is_authenticated %}
+                <li><a href="{% url 'c_signup' %}">sign up</a></li>
+                <li><a href="{% url 'c_sign_in' %}">sign in</a></li>
+                {% endif%}
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'c_signout' %}">logout</a></li>
+                {% endif%}
                 </ul>
             </nav>
 
