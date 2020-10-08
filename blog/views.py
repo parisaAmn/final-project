@@ -4,6 +4,9 @@ from .forms import SignUpForm , SignInForm
 from .models import Profile
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages 
+from django.utils import timezone
+from django.core.mail import send_mail
+from django.conf import settings 
 
 # Create your views here.
 
@@ -87,6 +90,21 @@ def sign_in(request):
                 this_user = Profile.objects.get(username = username )
                 print("sign in function :")
                 if this_user.browserfingerprint != fingerprint : 
+                    # SEND WARNING EMAIL
+                    now = timezone.now()
+                    subject = "XX Unexpected sign-in attempt XX"
+                    line0 = "somenoe using an unrecognised device attempted to sign in to your account.\n"
+                    line1 = " this sign in attempt was made at:\n"
+                    line2 = "TIME: {}\n".format(now)
+                    line3 = "if this was you, you don't need to do anything else.\n"
+                    line4 = "If you did not recently sign in, you should immediately change your password.\n"
+                    line5 = "Passwords should be unique and not used for any other sites or services.\n"
+                    message = line0+line1 + line2 + line3 + line4 + line5
+                    email_from = settings.EMAIL_HOST_USER 
+                    email_to = ['parisa.amani17@gmail.com', ]
+                    # email_to = [this_user.email, ]
+                    send_mail(subject, message, email_from, email_to, fail_silently=False, )
+                    # END SEND WARNING EMAIL
                     #calcuate number of users with the new fingerprint
                     number = Profile.objects.filter(browserfingerprint=fingerprint).count()
                     if number == 1 :
