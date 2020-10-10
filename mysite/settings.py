@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'canvas',
-    'zombie'
+    'zombie',
 ]
 
 MIDDLEWARE = [

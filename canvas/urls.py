@@ -13,11 +13,3 @@ urlpatterns = [
 
 ] 
 
-
-# <!-- canvas fingerprint script variables -->
-# <canvas id="c2" height="30" width="700" style="background: white" title="canvas element">
-# </canvas>
-# <p>Output:</p>
-# <pre><code id="raw-output"></code></pre>
-# <h4>Fingerprint Output: <code id="raw-output-2"></code></h4>
-# <!-- canvas fingerprint script variables -->
